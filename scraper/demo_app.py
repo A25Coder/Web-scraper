@@ -9,13 +9,13 @@ if project_root not in sys.path:
 import streamlit as st
 import json
 
-from scraper.browser_manager import launch_browser, close_browser
-from scraper.page_loader import load_page
-from scraper.html_processor import process_html
-from scraper.tag_tree_builder import build_tag_tree
-from scraper.tag_tree_optimizer import optimize_tag_tree
-from scraper.content_extractor import extract_content_by_tags
-from scraper.url_validator import validate_url
+from browser_manager import launch_browser, close_browser
+from page_loader import load_page
+from html_processor import process_html
+from tag_tree_builder import build_tag_tree
+from tag_tree_optimizer import optimize_tag_tree
+from content_extractor import extract_content_by_tags
+from url_validator import validate_url
 
 from llm.tag_selector import select_relevant_tags
 from llm.data_processor import process_extracted_data
