@@ -9,12 +9,14 @@ if project_root not in sys.path:
 
 import streamlit as st
 
+# Scraper modules
 from scraper.browser_manager import launch_browser, close_browser
 from scraper.page_loader import load_page
 from scraper.html_cleaner import clean_html
 from scraper.target_extractor import extract_by_target_tags
 from scraper.compact_tree_builder import build_compact_tree
 from scraper.url_validator import validate_url
+from llm.data_refiner import refine_structured_data
 
 from llm.tag_identifier import identify_target_tags
 from llm.data_processor import process_extracted_data
@@ -49,7 +51,6 @@ url = st.text_input("🌐 Enter URL")
 query = st.text_area("❓ Enter Query")
 
 run_button = st.button("🚀 Run Scraper")
-
 
 # -------------------------
 # MAIN EXECUTION
