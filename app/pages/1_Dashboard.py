@@ -1,4 +1,4 @@
-import streamlit as st, time, sys, os, io
+import streamlit as st, time, sys, os, io, json
 import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 st.set_page_config(page_title="Dashboard — WebScraper Pro", page_icon="🌐",
@@ -246,6 +246,19 @@ with main:
             log("✨ AI processing final output...", 95)
             final_output = process_extracted_data(query, extracted_data)
 
+            # Normalize final output to a DataFrame for display/download
+            try:
+                result_df = pd.DataFrame(final_output)
+            except Exception:
+                try:
+                    result_df = pd.DataFrame([final_output])
+                except Exception:
+                    result_df = pd.DataFrame()
+
+            # Save to session state for other UI sections
+            st.session_state["scrape_result_text"] = final_output
+            st.session_state["dashboard_df"] = result_df
+
             log("✅ Done!", 100)
             pb.empty()
             st_t.empty()
@@ -275,6 +288,15 @@ with main:
                 st.session_state["scrape_result_text"] = None
                 st.session_state["dashboard_df"] = None
                 st.rerun()
+
+        finally:
+            try:
+                close_browser(playwright, browser)
+            except Exception:
+                pass
+
+    except Exception as e:
+        st.error(f"❌ Scrape failed: {e}")
 
     with rc:
         rc_df = st.session_state.get("dashboard_df")
