@@ -91,7 +91,7 @@ with main:
 
     # Schedule button (wrapped in PB for accent CTA styling)
     st.markdown('<div class="PB">', unsafe_allow_html=True)
-    do_schedule = st.button("🗓  Schedule Scraper", key="btn_schedule", use_container_width=False)
+    do_schedule = st.button("Schedule Scraper", key="btn_schedule", use_container_width=False)
     st.markdown('</div>', unsafe_allow_html=True)
 
     if do_schedule:
@@ -108,7 +108,7 @@ with main:
                 "email_notify": email_notify, "status": "Active",
                 "next_run": f"{dt} {hr}",
             })
-            st.success(f"✅ Scheduled **{scraper_name}** — {frequency} starting {dt} at {hr}")
+            st.success(f"Scheduled **{scraper_name}** — {frequency} starting {dt} at {hr}")
             st.rerun()
 
     st.markdown(f'<div style="height:0.8rem"></div>', unsafe_allow_html=True)
@@ -200,16 +200,16 @@ with main:
         ac1, ac2, ac3, _ = st.columns([1, 1, 1, 4])
         with ac1:
             if s["status"] == "Active":
-                if st.button("⏸ Pause", key=f"pause_{s['id']}", use_container_width=True):
+                if st.button("Pause", key=f"pause_{s['id']}", use_container_width=True):
                     st.session_state.schedules[idx]["status"] = "Paused"
                     st.session_state.schedules[idx]["next_run"] = "—"
                     st.rerun()
             else:
-                if st.button("▶ Resume", key=f"resume_{s['id']}", use_container_width=True):
+                if st.button("Resume", key=f"resume_{s['id']}", use_container_width=True):
                     st.session_state.schedules[idx]["status"] = "Active"
                     st.rerun()
         with ac2:
-            if st.button("🗑 Delete", key=f"del_{s['id']}", use_container_width=True):
+            if st.button("Delete", key=f"del_{s['id']}", use_container_width=True):
                 st.session_state.schedules.pop(idx)
                 st.rerun()
 
