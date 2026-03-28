@@ -186,13 +186,13 @@ with main:
                 st.selectbox("Format", ["CSV", "JSON", "Excel"],
                              label_visibility="collapsed", key="dash_fmt")
             with bc:
-                start = st.form_submit_button("▶  Start Scraping", use_container_width=True)
+                start = st.form_submit_button("Start Scraping", use_container_width=True)
 
         if start:
             if not url:
-                st.warning("⚠️ Please enter a URL first!")
+                st.warning("Please enter a URL first!")
             elif not query:
-                st.warning("⚠️ Please enter what you want to extract!")
+                st.warning("Please enter what you want to extract!")
             else:
                 pb   = st.progress(0)
                 st_t = st.empty()
@@ -212,34 +212,34 @@ with main:
                         unsafe_allow_html=True)
 
                 try:
-                    log("🔍 Validating URL...", 10)
+                    log("Validating URL...", 10)
                     if not validate_url(url):
-                        st.error("❌ Invalid or unreachable URL!")
+                        st.error("Invalid or unreachable URL!")
                         st.stop()
 
-                    log("🚀 Launching Playwright browser...", 20)
+                    log("Launching Playwright browser...", 20)
                     playwright, browser = launch_browser()
 
                     try:
-                        log("🌐 Loading page...", 35)
+                        log("Loading page...", 35)
                         raw_html = load_page(browser, url)
 
-                        log("🧹 Cleaning HTML...", 50)
+                        log("Cleaning HTML...", 50)
                         soup = process_html(raw_html)
 
-                        log("🌳 Building tag tree...", 60)
+                        log("Building tag tree...", 60)
                         tag_tree = build_tag_tree(soup)
 
-                        log("🤖 AI selecting relevant tags...", 72)
+                        log("AI selecting relevant tags...", 72)
                         selected_tags = select_relevant_tags(query, tag_tree)
 
-                        log("📦 Extracting content...", 85)
+                        log("Extracting content...", 85)
                         extracted_data = extract_content_by_tags(soup, selected_tags)
 
-                        log("✨ AI processing final output...", 95)
+                        log("AI processing final output...", 95)
                         final_output = process_extracted_data(query, extracted_data)
 
-                        log("✅ Done!", 100)
+                        log("Done!", 100)
                         pb.empty()
                         st_t.empty()
                         con.empty()
@@ -255,31 +255,31 @@ with main:
                         close_browser(playwright, browser)
 
                 except Exception as e:
-                    st.error(f"❌ Error: {str(e)}")
+                    st.error(f"Error: {str(e)}")
 
         # Show scraping result — persists after rerun
         if st.session_state.get("scrape_result_text"):
             result_df = st.session_state["dashboard_df"]
-            st.success(f"✅ Scraping complete! {len(result_df)} rows extracted.")
-            st.markdown("### 📊 Extracted Data")
+            st.success(f"Scraping complete! {len(result_df)} rows extracted.")
+            st.markdown("### Extracted Data")
             st.write(st.session_state["scrape_result_text"])
 
             dl1, dl2, dl3 = st.columns(3, gap="small")
             with dl1:
-                st.download_button("⬇ CSV", result_df.to_csv(index=False),
+                st.download_button("Download CSV", result_df.to_csv(index=False),
                                    "scraped_data.csv", "text/csv",
                                    use_container_width=True, key="scrape_dl_csv")
             with dl2:
-                st.download_button("⬇ JSON", result_df.to_json(orient="records"),
+                st.download_button("Download JSON", result_df.to_json(orient="records"),
                                    "scraped_data.json", "application/json",
                                    use_container_width=True, key="scrape_dl_json")
             with dl3:
-                st.download_button("⬇ Excel", to_excel(result_df),
+                st.download_button("Download Excel", to_excel(result_df),
                                    "scraped_data.xlsx",
                                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                    use_container_width=True, key="scrape_dl_excel")
 
-            if st.button("🗑️ Clear Results", key="clear_results"):
+            if st.button("Clear Results", key="clear_results"):
                 st.session_state["scrape_result_text"] = None
                 st.session_state["dashboard_df"] = None
                 st.rerun()
@@ -334,13 +334,13 @@ with main:
 """, unsafe_allow_html=True)
 
         if rc_df is not None:
-            st.download_button("⬇ CSV", rc_df.to_csv(index=False),
+            st.download_button("Download CSV", rc_df.to_csv(index=False),
                                "export.csv", "text/csv",
                                use_container_width=True, key="rc_dl_csv")
-            st.download_button("⬇ JSON", rc_df.to_json(orient="records"),
+            st.download_button("Download JSON", rc_df.to_json(orient="records"),
                                "export.json", "application/json",
                                use_container_width=True, key="rc_dl_json")
-            st.download_button("⬇ Excel", to_excel(rc_df), "export.xlsx",
+            st.download_button("Download Excel", to_excel(rc_df), "export.xlsx",
                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                use_container_width=True, key="rc_dl_excel")
         else:
@@ -438,21 +438,21 @@ with main:
   </div>
 """, unsafe_allow_html=True)
 
-        tab1, tab2, tab3 = st.tabs(["📋  Table View", "📊  Charts", "🤖  AI Analysis"])
+        tab1, tab2, tab3 = st.tabs(["Table View", "Charts", "AI Analysis"])
 
         with tab1:
             st.dataframe(canvas_df, use_container_width=True, height=280)
             dl_a, dl_b, dl_c = st.columns(3, gap="small")
             with dl_a:
-                st.download_button("⬇ CSV", canvas_df.to_csv(index=False),
+                st.download_button("DownloadCSV", canvas_df.to_csv(index=False),
                                    "export.csv", "text/csv",
                                    use_container_width=True, key="tab_csv")
             with dl_b:
-                st.download_button("⬇ JSON", canvas_df.to_json(orient="records"),
+                st.download_button("Download JSON", canvas_df.to_json(orient="records"),
                                    "export.json", "application/json",
                                    use_container_width=True, key="tab_json")
             with dl_c:
-                st.download_button("⬇ Excel", to_excel(canvas_df), "export.xlsx",
+                st.download_button("Download Excel", to_excel(canvas_df), "export.xlsx",
                                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                    use_container_width=True, key="tab_excel")
 
