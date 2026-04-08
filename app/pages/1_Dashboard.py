@@ -108,11 +108,11 @@ def _save_job(url: str, category: str, rows: int, status: str, duration: str) ->
         response = _SUPA.table("scrape_jobs").insert(payload).execute()
         
         # If successful, this will print in your VS Code terminal
-        print(f"✅ Job saved successfully: {response.data}")
+        print(f"Job saved successfully: {response.data}")
         
     except Exception as e:
         # This will show the EXACT error (like 'Permission Denied' or 'Invalid UUID') in Streamlit
-        st.error(f"❌ Supabase Save Failed: {e}")
+        st.error(f"Supabase Save Failed: {e}")
 
 
 def _load_jobs() -> list[dict]:
@@ -251,7 +251,7 @@ with main:
     uid_display = _get_current_user_id()
     user_badge  = (
         f'<span style="font-size:0.7rem;color:{t["muted"]};margin-left:8px;">'
-        f'👤 {uid_display[:8]}…</span>'
+        f'{uid_display[:8]}…</span>'
         if uid_display else ""
     )
 
