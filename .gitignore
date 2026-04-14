@@ -28,6 +28,8 @@ dist/
 *.egg-info/
 .eggs/
 pip-wheel-metadata/
+cache/
+outputs/
 
 # =========================
 # Test, Coverage & Tool Caches
